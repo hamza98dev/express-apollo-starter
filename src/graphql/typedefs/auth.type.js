@@ -32,7 +32,7 @@ const authSchema =gql`
     }
 
     type Query {
-        me:user
+        me(token:String):user
     }
     type Mutation {
         login(data:loginCredentials):token

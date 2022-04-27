@@ -14,7 +14,8 @@ const dbName = process.env.DB_NAME
 const dbUrl = process.env.DB_URL
 const port = process.env.PORT
 
-mongoose.connect(dbUrl.concat(dbName), async () => {
+// mongoose.connect(dbUrl.concat(dbName), async () => {
+mongoose.connect(process.env.DB_ATLAS, async () => {
     try {
         console.log('🎆 Db connected ')
         /*Init GraphQl Route*/
@@ -24,6 +25,7 @@ mongoose.connect(dbUrl.concat(dbName), async () => {
             typeDefs,
             resolvers,
             playground: false,
+            formatError: err => ({msg: err.message, code: err.statusCode}),
             context:({req})=>{
                 return req
             }
