@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const UserModel = new mongoose.Schema({
-    username:{
+    fullname:{
         type:String,
         required:true
     },
@@ -14,7 +14,6 @@ const UserModel = new mongoose.Schema({
     },
     password:{
         type:String,
-        required:true,
         min: [6, 'password must be at least 6 characters'],
     }
 },{
