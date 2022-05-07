@@ -3,9 +3,8 @@ const {Query,Mutation} = require('../resolvers/auth.resolver')
 const authSchema =gql`
     type user {
         id:ID!
-        username:String!
+        fullname:String!
         email:String!
-        password:String
         createdAt:String
         updatedAt:String
     }
@@ -26,7 +25,7 @@ const authSchema =gql`
     }
 
     input registerCredentials{
-        username:String
+        fullname:String
         email:String
         password:String
     }
@@ -35,6 +34,7 @@ const authSchema =gql`
         me(token:String):user
     }
     type Mutation {
+        googleAuth(idToken: String):user
         login(data:loginCredentials):token
         register(data:registerCredentials):user
     }

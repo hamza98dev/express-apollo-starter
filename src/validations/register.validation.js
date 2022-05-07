@@ -1,14 +1,14 @@
 let validator = require('validator');
 let {User} = require('../models/User.model')
-const registerValidation=  async({username, email, password})=> {
+const registerValidation=  async({fullname, email, password})=> {
     let errors = []
-    // ______________ username ______________ //
-    if (!username)
-        errors.push('Please enter a username');
+    // ______________ fullname ______________ //
+    if (!fullname)
+        errors.push('Please enter a fullname');
     else {
-        let usernameExist = await User.find({username: username})
-        if (usernameExist) 
-            errors.push('This username already exist')
+        let fullnameExist = await User.find({fullname: fullname})
+        if (fullnameExist) 
+            errors.push('This fullname already exist')
     }
 
     // ______________ email ______________ //
