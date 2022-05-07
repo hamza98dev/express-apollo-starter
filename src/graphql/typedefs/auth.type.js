@@ -30,6 +30,7 @@ const authSchema =gql`
         password:String
     }
 
+
     type Query {
         me(token:String):user
     }
@@ -37,6 +38,7 @@ const authSchema =gql`
         googleAuth(idToken: String):user
         login(data:loginCredentials):token
         register(data:registerCredentials):user
+        checkEmail(email:String):Boolean
     }
 `
 const authResolver = {

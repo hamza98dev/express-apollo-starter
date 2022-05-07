@@ -5,11 +5,6 @@ const registerValidation=  async({fullname, email, password})=> {
     // ______________ fullname ______________ //
     if (!fullname)
         errors.push('Please enter a fullname');
-    else {
-        let fullnameExist = await User.find({fullname: fullname})
-        if (fullnameExist) 
-            errors.push('This fullname already exist')
-    }
 
     // ______________ email ______________ //
     if (!email)
@@ -17,7 +12,7 @@ const registerValidation=  async({fullname, email, password})=> {
     else if (!validator.isEmail(email)) 
         errors.push('Please enter a valid mail')
     else {
-        let emailExist = await User.find({email: email})
+        let emailExist = await User.findOne({email: email})
         if (emailExist) 
             errors.push('This email already exist')
     }
@@ -30,7 +25,7 @@ const registerValidation=  async({fullname, email, password})=> {
     
     
     if(errors.length > 0)
-        throw new Error(errors.join('//'))
+        throw new Error(errors.join(' // '))
 
 }
 module.exports = {
