@@ -27,6 +27,11 @@ const Mutation = {
         let user = await User.create(data)
         return user
     },
+    checkEmail:async (parent, {data})=>{
+        //Register function here
+        let user = await User.count({email: data.email})
+        return user > 0 
+    },
 }
 
 // Get token from model

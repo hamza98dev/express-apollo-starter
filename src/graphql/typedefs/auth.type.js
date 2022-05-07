@@ -31,12 +31,17 @@ const authSchema =gql`
         password:String
     }
 
+    input emailCheckCredentials{
+        email:String
+    }
+
     type Query {
         me(token:String):user
     }
     type Mutation {
         login(data:loginCredentials):token
         register(data:registerCredentials):user
+        checkEmail(data:emailCheckCredentials):Boolean
     }
 `
 const authResolver = {
