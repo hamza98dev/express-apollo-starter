@@ -1,6 +1,10 @@
 let {registerValidation} = require('../../validations/register.validation')
 let {loginValidation} = require('../../validations/login.validation')
 
+// Google auth
+const { OAuth2Client } = require('google-auth-library')
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
+
 const jwt = require('jsonwebtoken');
 const {User} = require('../../models/User.model');
 
@@ -16,6 +20,28 @@ const Query = {
     }
 }
 const Mutation = {
+    googleAuth: async (_,{ idToken }) => {
+        const clientId = process.env.GOOGLE_CLIENT_ID
+        const { payload } = await client.verifyIdToken({idToken: idToken, audience: clientId})
+        
+        // 
+        if(payload.email_verified) {
+            const user = await User.findOne({email: payload.email});
+            
+            if(!user) {
+                const newUser = new User({
+                    fullname: payload.name,
+                    email: payload.email
+                });
+                await newUser.save();
+                return newUser
+            }
+            return user
+        }
+
+        throw new Error('Login Unsuccessfull');
+
+    },
     login:async (parent,{data})=>{
         //Login function here
         let user = await loginValidation(data)
@@ -27,9 +53,9 @@ const Mutation = {
         let user = await User.create(data)
         return user
     },
-    checkEmail:async (parent, {data})=>{
+    checkEmail:async (_, { email })=>{
         //Register function here
-        let user = await User.count({email: data.email})
+        let user = await User.count({email: email})
         return user > 0 
     },
 }

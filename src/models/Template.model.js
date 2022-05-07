@@ -1,25 +1,28 @@
 const mongoose = require('mongoose')
+const { Schema } = mongoose;
 
-const TemplateModel = new mongoose.Schema({
-    username:{
-        type:String,
+const TemplateModel = new Schema({
+    is_premium:{
+        type:Boolean,
         required:true
     },
-    email:{
+    file_path: String,
+    type:{
         type:String,
-        required:true,
-        unique:true
+        enum: {
+            values: ['CV', 'Lettre motivation'],
+            message: '{VALUE} is not supported'
+        }
     },
-    password:{
-        type:String,
-        required:true,
-        min: [6, 'password must be at least 6 characters'],
+    categorie: [String],
+    style_path: String,
+    preview: String,
+    downloads: {
+        type: Number,
+        default: 0
     }
 },{
     timestamps:true
 })
 
-const User  = mongoose.model('User',UserModel)
-module.exports = {
-    User
-}
+module.exports = mongoose.model('Template',TemplateModel)

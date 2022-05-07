@@ -1,15 +1,10 @@
 let validator = require('validator');
 let {User} = require('../models/User.model')
-const registerValidation=  async({username, email, password})=> {
+const registerValidation=  async({fullname, email, password})=> {
     let errors = []
-    // ______________ username ______________ //
-    if (!username)
-        errors.push('Please enter a username');
-    else {
-        let usernameExist = await User.find({username: username})
-        if (usernameExist) 
-            errors.push('This username already exist')
-    }
+    // ______________ fullname ______________ //
+    if (!fullname)
+        errors.push('Please enter a fullname');
 
     // ______________ email ______________ //
     if (!email)
@@ -17,7 +12,7 @@ const registerValidation=  async({username, email, password})=> {
     else if (!validator.isEmail(email)) 
         errors.push('Please enter a valid mail')
     else {
-        let emailExist = await User.find({email: email})
+        let emailExist = await User.findOne({email: email})
         if (emailExist) 
             errors.push('This email already exist')
     }
@@ -30,7 +25,7 @@ const registerValidation=  async({username, email, password})=> {
     
     
     if(errors.length > 0)
-        throw new Error(errors.join('//'))
+        throw new Error(errors.join(' // '))
 
 }
 module.exports = {
